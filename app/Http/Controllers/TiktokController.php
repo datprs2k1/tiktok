@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use ProtoneMedia\LaravelFFMpeg\FFMpeg\FFProbe;
 
 class TiktokController extends Controller
@@ -16,9 +17,11 @@ class TiktokController extends Controller
     public function initPost(Request $request)
     {
         $video = $request->file('video');
+
+        $file = Storage::disk('public')->put('video/tiktok/' . $video->getClientOriginalName(), $video);
         $count = round($video->getSize() / 10000000);
         $ffprobe = FFProbe::create();
-        $duration = $ffprobe->format($video->getContent())->get('duration');
+        $duration = $ffprobe->format(Storage::disk('public')->get('video/tiktok/' . $video->getClientOriginalName()))->get('duration');
         $duration = explode(".", $duration)[0];
 
         $title = $request->get('title');

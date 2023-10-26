@@ -18,7 +18,7 @@ class TiktokController extends Controller
         $video = $request->file('video');
         $count = round($video->getSize() / 10000000);
         $ffprobe = FFProbe::create();
-        $duration = $ffprobe->format($video)->get('duration');
+        $duration = $ffprobe->format($video->getContent())->get('duration');
         $duration = explode(".", $duration)[0];
 
         $title = $request->get('title');

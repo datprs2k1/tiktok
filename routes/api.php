@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/', [TiktokController::class, 'create']);
+Route::post('/callback', [TiktokController::class, 'callback']);
